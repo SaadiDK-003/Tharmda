@@ -1,0 +1,225 @@
+<?php
+require_once 'core/database.php';
+if ($userRole != 'admin') {
+    header('Location: index.php');
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= env("TITLE") ?> |  لوحة تحكم المشرف</title>
+    <?php include_once "includes/external_css.php"; ?>
+</head>
+
+<body id="adminDashboard">
+    <?php include_once "includes/header.php"; ?>
+    <main>
+        <div class="container my-5">
+            <div class="row">
+                <div class="col-12">
+                    <div class="btn_wrapper d-flex justify-content-center gap-2">
+                        <a href="./adminDashboard.php" class="btn btn-primary">الرجوع</a>
+                    </div>
+                </div>
+            </div>
+            <form id="add_app_form" enctype="multipart/form-data" class="app_form my-4">
+                <div class="row">
+                    <div class="col-12 col-md-3 mx-auto">
+                        <div class="row">
+                            <div class="col-12 mx-auto mb-3">
+                                <div class="form-group">
+                                    <label for="title" class="form-label">العنوان</label>
+                                    <input type="text" name="title" id="title" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-12 mx-auto mb-3">
+                                <div class="form-group">
+                                    <label for="link" class="form-label">الرابط</label>
+                                    <input type="url" name="link" id="link" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-12 mx-auto mb-3">
+                                <div class="form-group">
+                                    <label for="image" class="form-label">صورة</label>
+                                    <input type="file" name="image" id="image" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="form-group d-flex justify-content-end">
+                                    <input type="hidden" name="app_id">
+                                    <button type="submit" class="btn btn-success">اضافة تطبيق</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="row">
+                <div class="col-12 col-md-7 mx-auto">
+                    <table id="type-table"
+                        class="table table-bordered table-striped table-responsive text-center align-middle">
+                        <thead>
+                            <tr>
+                                <th class="text-center">العنوان</th>
+                                <th class="text-center">الرابط</th>
+                                <th class="text-center">صورة</th>
+                                <th class="text-center">الاجراء</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $app_Q = $db->query("CALL `get_apps`()");
+                            if ($app_Q->num_rows > 0):
+                                while ($app = $app_Q->fetch_object()): ?>
+
+                                    <tr>
+                                        <td><?= $app->title ?></td>
+                                        <td><?= $app->link ?></td>
+                                        <td><img src="<?= $app->image ?>" width="60" height="60" class="rounded d-block mx-auto"
+                                                alt="app-<?= $app->app_id ?>">
+                                        </td>
+                                        <td>
+                                            <a href="#!" data-id="<?= $app->app_id ?>" data-title="<?= $app->title ?>"
+                                                data-link="<?= $app->link ?>" class="btn btn-sm btn-primary btn-upd-app"><i
+                                                    class="fas fa-pencil"></i></a>
+                                            <a href="#!" data-id="<?= $app->app_id ?>" data-table="applications" data-msg="App"
+                                                class="btn btn-sm btn-danger btn-del"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+
+                                    <?php
+                                endwhile;
+                            endif;
+                            $app_Q->close();
+                            $db->next_result();
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-12 text-center">
+                    <a href="#!" class="btn btn-secondary btn-sm">أنواع الإقامة</a>
+                </div>
+            </div>
+        </div>
+    </main>
+    <?php include_once "includes/footer.php"; ?>
+    <?php include_once "includes/external_js.php"; ?>
+
+    <script>
+        $(document).ready(function () {
+            new DataTable("#type-table", {
+                info: false,
+                ordering: false,
+                pageLength: 5,
+                layout: {
+                    topStart: null
+                }
+            });
+
+            // Add Type
+            $("#add_app_form").on("submit", function (e) {
+                e.preventDefault();
+                var formData = new FormData(this);
+
+                $.ajax({
+                    url: "ajax/application.php",
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        let res = JSON.parse(response);
+                        if (res.status == "success") {
+                            $("#ToastSuccess").addClass("fade show");
+                            $("#ToastSuccess .toast-body").html(res.msg);
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 2000);
+                        } else {
+                            $("#ToastDanger").addClass("fade show");
+                            $("#ToastDanger .toast-body").html(res.msg);
+                        }
+                    }
+                });
+            });
+
+
+            $(document).on("click", ".btn-upd-app", function (e) {
+                e.preventDefault();
+                let id = $(this).data("id");
+                let title = $(this).data("title");
+                let link = $(this).data("link");
+                $(".app_form").attr("id", "upd_app_form");
+                $(".app_form").find("#title").attr("name", "title_update").val(title);
+                $(".app_form").find("#link").attr("name", "link_update").val(link);
+                $(".app_form").find("#image").attr("disabled", true);
+                $(".app_form").find("#image").parent().parent().hide();
+                $("input[name='app_id']").val(id);
+                // $("input[name='old_type']").val(type);
+                $(".app_form").find("button").text("Update");
+            });
+
+            // Update Type
+            $("#upd_app_form").on("submit", function (e) {
+                e.preventDefault();
+                let formData = $(this).serialize();
+
+                $.ajax({
+                    url: "admin/application.php",
+                    method: "post",
+                    data: formData,
+                    success: function (response) {
+                        let res = JSON.parse(response);
+                        if (res.status == "success") {
+                            $("#ToastSuccess").addClass("fade show");
+                            $("#ToastSuccess .toast-body").html(res.msg);
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 2000);
+                        } else {
+                            $("#ToastDanger").addClass("fade show");
+                            $("#ToastDanger .toast-body").html(res.msg);
+                        }
+                    }
+                });
+            });
+
+
+            // Delete
+            $(document).on("click", ".btn-del", function (e) {
+                e.preventDefault();
+                let id = $(this).data('id');
+                let table = $(this).data('table');
+                let msg = $(this).data('msg');
+
+                $.ajax({
+                    url: "ajax/delete.php",
+                    method: "post",
+                    data: {
+                        del_id: id,
+                        del_table: table,
+                        msg: msg
+                    },
+                    success: function (response) {
+                        console.log(response);
+
+                        let res = JSON.parse(response);
+                        $('#ToastDanger').addClass('fade show');
+                        $("#ToastDanger .toast-body").html(res.msg);
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1800);
+                    }
+                });
+            });
+
+        });
+    </script>
+</body>
+
+</html>
