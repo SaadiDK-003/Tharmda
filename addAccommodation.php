@@ -5,7 +5,7 @@ if (!isLoggedIn()) {
     exit();
 }
 
-if ($userRole != 'local') {
+if ($userRole != 'admin') {
     header('Location: index.php');
     exit();
 }
@@ -26,7 +26,7 @@ if ($userRole != 'local') {
         <div class="container my-5">
             <div class="row">
                 <div class="col-12 my-4 text-center">
-                    <a href="./localDashboard.php" class="btn btn-primary">الرجوع</a>
+                    <a href="./adminDashboard.php" class="btn btn-danger">الرجوع</a>
                 </div>
                 <div class="col-12 col-md-6 mx-auto">
                     <?php if (isset($_POST['city_id']) && isset($_POST['type'])) {
@@ -108,11 +108,11 @@ if ($userRole != 'local') {
                         </thead>
                         <tbody>
                             <?php
-                            $acc_Q = $db->query("CALL `get_acc_user`($userid)");
+                            $acc_Q = $db->query("CALL `get_acc`()");
                             if ($acc_Q->num_rows > 0):
                                 while ($acc = $acc_Q->fetch_object()):
                                     $status = $acc->status;
-                                    $images = explode(',', $acc->accommodation_image);
+                                    $images = explode(',', $acc->acc_img);
                                     $imagesCount = count($images);
                                     ?>
 

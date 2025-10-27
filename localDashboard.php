@@ -5,7 +5,7 @@ if (!isLoggedIn()) {
     exit();
 }
 
-if ($userRole != 'local') {
+if ($userRole != 'admin') {
     header('Location: index.php');
     exit();
 }
@@ -30,7 +30,7 @@ if ($userRole != 'local') {
                         <a href="./addPlace.php" class="btn btn-primary mb-3">إضافة أماكن</a>
                         <a href="./addAccommodation.php" class="btn btn-secondary mb-3">إضافة أماكن الإقامة</a>
                         <a href="./addEvent.php" class="btn btn-warning mb-3">إضافة حدث</a>
-                        <a href="./edit_profile.php" class="btn btn-primary profile-btn position-absolute">تعديل الملف الشخصي</a>
+                        <a href="./edit_profile.php" class="d-none btn btn-primary profile-btn position-absolute">تعديل الملف الشخصي</a>
                     </div>
                 </div>
             </div>

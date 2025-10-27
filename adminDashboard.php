@@ -20,6 +20,18 @@ if ($userRole != 'admin') {
         <div class="container my-5">
             <div class="row">
                 <div class="col-12">
+                    <div class="buttons_wrapper text-center position-relative">
+                        <a href="./addPlace.php" class="btn btn-primary mb-3">إضافة أماكن</a>
+                        <a href="./addAccommodation.php" class="btn btn-secondary mb-3">إضافة أماكن الإقامة</a>
+                        <a href="./addEvent.php" class="btn btn-warning mb-3">إضافة حدث</a>
+                        <a href="./edit_profile.php" class="d-none btn btn-primary profile-btn position-absolute">تعديل
+                            الملف الشخصي</a>
+                    </div>
+                </div>
+                <!-- <div class="col-12 text-center mb-4">
+                    <a href="./localDashboard.php" class="btn btn-brown">Add (Place, Accommodation or Events)</a>
+                </div> -->
+                <div class="col-12">
                     <div class="btn_wrapper d-flex justify-content-center gap-2">
                         <a href="./admin/places.php" class="btn btn-primary">تحديث حالة الأماكن</a>
                         <a href="./admin/accommodation.php" class="btn btn-secondary">تحديث حالة أماكن الإقامة</a>

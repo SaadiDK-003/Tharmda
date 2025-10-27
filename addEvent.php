@@ -5,7 +5,7 @@ if (!isLoggedIn()) {
     exit();
 }
 
-if ($userRole != 'local') {
+if ($userRole != 'admin') {
     header('Location: index.php');
     exit();
 }
@@ -26,7 +26,7 @@ if ($userRole != 'local') {
         <div class="container my-5">
             <div class="row">
                 <div class="col-12 my-4 text-center">
-                    <a href="./localDashboard.php" class="btn btn-primary">الرجوع</a>
+                    <a href="./adminDashboard.php" class="btn btn-primary">الرجوع</a>
                 </div>
                 <div class="col-12 col-md-6 mx-auto">
                     <?php if (isset($_POST['city_id']) && isset($_POST['event_name'])) {
@@ -104,7 +104,7 @@ if ($userRole != 'local') {
                         </thead>
                         <tbody>
                             <?php
-                            $events_Q = $db->query("CALL `get_events_user`($userid)");
+                            $events_Q = $db->query("CALL `get_events`()");
                             if ($events_Q->num_rows > 0):
                                 while ($event = $events_Q->fetch_object()):
                                     $status = $event->status;

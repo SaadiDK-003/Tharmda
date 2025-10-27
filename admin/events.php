@@ -20,8 +20,9 @@ if ($userRole != 'admin') {
         <div class="container my-5">
             <div class="row">
                 <div class="col-12">
-                    <div class="btn_wrapper d-flex justify-content-center">
-                        <a href="../adminDashboard.php" class="btn btn-primary">الرجوعس</a>
+                    <div class="btn_wrapper d-flex justify-content-center align-items-center gap-2">
+                        <a href="../addEvent.php" class="btn btn-primary">إضافة حدث</a>
+                        <a href="../adminDashboard.php" class="btn btn-danger">الرجوعس</a>
                     </div>
                 </div>
             </div>

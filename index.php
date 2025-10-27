@@ -14,26 +14,23 @@ require_once 'core/database.php';
 <body id="home">
       <?php include_once 'includes/header.php'; ?>
       <main>
-            <section class="hero d-flex align-items-center justify-content-center p-4">
-                  <div class="container">
+            <section class="hero d-flex align-items-center justify-content-center">
+                  <div class="container-fluid p-0">
                         <div class="row">
-                              <div class="col-12 col-md-6 d-flex align-items-center">
-                                    <div class="content text-white">
-                                          <h1>استكشاف السعودية</h1>
-                                          <p>
-                                          مبادرة تقنية تهدف إلى تسهيل التخطيط السياحي داخل المملكة العربية السعودية
-                                          </p>
-                                          <p>
-                                          يساعد المشروع المسافرين على استكشاف الوجهات المناسبة وفقًا لاهتماماتهم وميزانياتهم. كما يعزز من تجربة السفر عبر توفير توصيات مخصصة ومعلومات دقيقة عن أفضل الأوقات للزيارة والإقامة.
-                                          </p>
-                                          <div class="btn-wrapper">
-                                                <a href="#useful-apps" class="btn bg-primary-custom text-white">تطبيقات مفيدة</a>
+                              <div class="col-12">
+                                    <div class="owl-carousel slider">
+                                          <div class="slide">
+                                                <img src="img/bestPlaces/makkah.jpg" alt="Makkah">
                                           </div>
-                                    </div>
-                              </div>
-                              <div class="col-12 col-md-6">
-                                    <div class="bg-img" data-title="<?= env("TITLE") ?>">
-                                          <img src="./img/bg1.jpg" loading="lazy" alt="explore_bg">
+                                          <div class="slide">
+                                                <img src="img/bestPlaces/maddenah.jpg" alt="Maddenah">
+                                          </div>
+                                          <div class="slide">
+                                                <img src="img/bestPlaces/al-ula.jpg" alt="Al-ula">
+                                          </div>
+                                          <div class="slide">
+                                                <img src="img/bestPlaces/riyadh.jpg" alt="riyadh.jpg">
+                                          </div>
                                     </div>
                               </div>
                         </div>
@@ -136,6 +133,27 @@ require_once 'core/database.php';
       <?php include_once 'includes/external_js.php'; ?>
       <script>
             $(document).ready(function () {
+
+                  $(".slider").owlCarousel({
+                        loop: true,
+                        margin: 0,
+                        nav: true,
+                        dots: false,
+                        autoplay: true,
+                        navText: ['<i class="fas fa-circle-chevron-left"></i>', '<i class="fas fa-circle-chevron-right"></i>'],
+                        responsive: {
+                              0: {
+                                    items: 1
+                              },
+                              600: {
+                                    items: 1
+                              },
+                              1000: {
+                                    items: 1
+                              }
+                        }
+                  });
+
                   $(document).on("click", ".btn-rating", function (e) {
                         e.preventDefault();
                         let id = $(this).data("id");
