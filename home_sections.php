@@ -187,34 +187,3 @@
         </div>
     </div>
 </section>
-
-<!-- Useful Applications -->
-<section id="useful-apps" class="useful_apps">
-    <div class="container">
-        <div class="row">
-            <div class="col-12 mb-3">
-                <h2 class="bg-primary-custom text-white rounded p-2">التطبيقات المفيدة</h2>
-            </div>
-            <?php $app_Q = $db->query("CALL `get_apps`()");
-            if (mysqli_num_rows($app_Q) > 0):
-                while ($app = mysqli_fetch_object($app_Q)):
-                    ?>
-                    <div class="col-12 col-md-3 mb-3">
-                        <div class="content p-2 border rounded shadow">
-                            <div class="img">
-                                <img src="<?= $app->image ?>" height="200" width="300" class="rounded" loading="lazy"
-                                    alt="app-<?= $app->app_id ?>">
-                            </div>
-                            <hr>
-                            <h5><?= $app->title ?></h5>
-                            <a href="<?= $app->link ?>" class="btn btn-primary btn-sm w-100">رابط التطبيق</a>
-                        </div>
-                    </div>
-                <?php endwhile; else: ?>
-                <h1 class="text-center alert alert-info">No Application Found.</h1>
-            <?php endif;
-            $app_Q->close();
-            $db->next_result(); ?>
-        </div>
-    </div>
-</section>

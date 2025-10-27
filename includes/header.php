@@ -10,12 +10,12 @@
                         <?php elseif ($userRole == 'local'): ?>
                               <a href="<?= env("SITE_URL") ?>localDashboard.php" class="btn btn-primary">لوحة التحكم </a>
                         <?php else: ?>
-                              <a href="<?= env(" SITE_URL") ?>touristDashboard.php" class="btn btn-primary">لوحة التحكم </a>
+                              <a href="<?= env(" SITE_URL") ?>touristDashboard.php" class="btn btn-brown">لوحة التحكم </a>
                         <?php endif; ?>
                         <a href="<?= env("SITE_URL") ?>logout.php" class="btn btn-danger">تسجيل الخروج</a>
                   <?php else: ?>
-                        <a href="<?= env("SITE_URL") ?>login.php" class="btn btn-success">تسجيل الدخول</a>
-                        <a href="<?= env("SITE_URL") ?>register.php" class="btn btn-primary">انشاء حساب</a>
+                        <a href="<?= env("SITE_URL") ?>login.php" class="btn btn-brown">تسجيل الدخول</a>
+                        <a href="<?= env("SITE_URL") ?>register.php" class="btn btn-brown">انشاء حساب</a>
                   <?php endif; ?>
             </div>
       </div>
